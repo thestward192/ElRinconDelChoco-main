@@ -4,7 +4,7 @@ const FilterDropdown = ({ mode, setMode }) => {
     <div className="flex space-x-12">
       <button
         onClick={() => setMode('books')}
-        className={`pb-1 border-b-2 transition-all duration-300 text-lg font-medium ${
+        className={`pb-1 border-b-2 transition-all duration-300 text-lg font-medium hover: cursor-pointer ${
           mode === 'books'
             ? 'border-white text-white'
             : 'border-transparent text-gray-300 hover:text-white'
@@ -14,7 +14,7 @@ const FilterDropdown = ({ mode, setMode }) => {
       </button>
       <button
         onClick={() => setMode('movies')}
-        className={`pb-1 border-b-2 transition-all duration-300 text-lg font-medium ${
+        className={`pb-1 border-b-2 transition-all duration-300 text-lg font-medium hover: cursor-pointer ${
           mode === 'movies'
             ? 'border-white text-white'
             : 'border-transparent text-gray-300 hover:text-white'

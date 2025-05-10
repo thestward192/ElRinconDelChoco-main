@@ -46,7 +46,7 @@ const PreferencesModal = ({ type, isOpen, onClose, onSave }) => {
           </h2>
           <button
             onClick={onClose}
-            className="text-white text-3xl font-bold hover:text-red-500"
+            className="text-white text-3xl font-bold hover:text-red-500 hover: cursor-pointer"
           >
             &times;
           </button>
@@ -63,7 +63,7 @@ const PreferencesModal = ({ type, isOpen, onClose, onSave }) => {
                   type="checkbox"
                   checked={genres.includes(genre)}
                   onChange={() => handleGenreChange(genre)}
-                  className="accent-blue-500"
+                  className="accent-blue-500 hover: cursor-pointer"
                 />
                 <span>{genre}</span>
               </label>
@@ -90,13 +90,13 @@ const PreferencesModal = ({ type, isOpen, onClose, onSave }) => {
         <div className="flex justify-end gap-2">
           <button
             onClick={onClose}
-            className="bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded"
+            className="bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded hover: cursor-pointer"
           >
             Cancelar
           </button>
           <button
             onClick={handleSubmit}
-            className="bg-[#515B51] hover:bg-[#434b43] text-white px-4 py-2 rounded"
+            className="bg-[#515B51] hover:bg-[#434b43] text-white px-4 py-2 rounded hover: cursor-pointer"
           >
             Guardar preferencias
           </button>
