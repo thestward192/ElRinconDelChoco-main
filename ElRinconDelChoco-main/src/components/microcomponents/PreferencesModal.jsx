@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { savePreferenceHistory } from '../../services/historyService';
 
 const genreOptions = {
   movies: [
@@ -26,6 +27,7 @@ const PreferencesModal = ({ type, isOpen, onClose, onSave }) => {
       : { type, genres, authors };
 
     onSave(preferences);
+    savePreferenceHistory('anonymous', preferences);
     onClose();
   };
 

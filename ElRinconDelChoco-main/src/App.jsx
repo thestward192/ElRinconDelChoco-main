@@ -1,4 +1,3 @@
-// src/App.jsx
 import { useState, useEffect } from 'react';
 import Navbar from './components/layout/Navbar';
 import Modal from './components/microcomponents/Modal';
@@ -8,6 +7,7 @@ import MovieSection from './components/sections/MovieSection';
 import BookSection from './components/sections/BookSection';
 import PreferencesModal from './components/microcomponents/PreferencesModal';
 import PreferencesSection from './components/sections/PreferencesSection';
+import HistorySection from './components/sections/HistorySection';
 import { searchMoviesByPreferences } from './services/movieService';
 import { searchBooksByPreferences } from './services/bookService';
 
@@ -19,25 +19,25 @@ const App = () => {
   } = useAppLogic();
 
   const [showPreferencesModal, setShowPreferencesModal] = useState(false);
+  const [showHistory, setShowHistory] = useState(false); // NUEVO: Controla la vista de Historial
   const [moviePreferences, setMoviePreferences] = useState(null);
   const [bookPreferences, setBookPreferences] = useState(null);
   const [recommendations, setRecommendations] = useState([]);
 
-  // Resetear recomendaciones al cambiar de modo
   useEffect(() => {
     setRecommendations([]);
   }, [mode]);
 
   useEffect(() => {
     const currentPreferences = mode === 'movies' ? moviePreferences : bookPreferences;
-    
+
     const fetchRecommendations = async () => {
       if (!currentPreferences || !currentPreferences.genres.length) return;
 
       const query = mode === 'movies' 
         ? currentPreferences.actors || currentPreferences.genres[0]
         : currentPreferences.authors || currentPreferences.genres[0];
-        
+
       if (!query) return;
 
       const fetchFn = mode === 'movies' ? searchMoviesByPreferences : searchBooksByPreferences;
@@ -66,29 +66,49 @@ const App = () => {
 
   return (
     <div className="min-h-screen text-white bg-gradient-to-tr from-[#515B51] via-[#0a0a0a] to-[#0a0a0a]">
-      <Navbar mode={mode} setMode={setMode} openPreferences={() => setShowPreferencesModal(true)} />
+      <Navbar 
+  mode={mode} 
+  setMode={(newMode) => {
+    setShowHistory(false); // Oculta historial al cambiar de modo
+    setMode(newMode);
+  }} 
+  openPreferences={() => setShowPreferencesModal(true)} 
+  openHistory={() => setShowHistory(true)} 
+/>
+
       
-      <HeroSection mode={mode}/>
+      <HeroSection mode={mode} />
 
       <div className="p-4 space-y-10">
-        {currentPreferences && (
-          <PreferencesSection 
-            preferences={currentPreferences} 
-            recommendations={recommendations} 
-            onSelect={openModal} 
-          />
-        )}
+        {showHistory ? (
+          <HistorySection /> // Muestra la sección de historial
+        ) : (
+          <>
+            {currentPreferences && (
+              <PreferencesSection 
+                preferences={currentPreferences} 
+                recommendations={recommendations} 
+                onSelect={openModal} 
+              />
+            )}
 
-        {mode === 'movies' && !loadingMovies && movies && (
-          <MovieSection movies={movies} openModal={openModal} />
-        )}
+            {mode === 'movies' && !loadingMovies && movies && (
+              <MovieSection movies={movies} openModal={openModal} />
+            )}
 
-        {mode === 'books' && !loadingBooks && books && (
-          <BookSection books={books} openModal={openModal} />
+            {mode === 'books' && !loadingBooks && books && (
+              <BookSection books={books} openModal={openModal} />
+            )}
+          </>
         )}
       </div>
 
-      <Modal isOpen={showModal} closeModal={closeModal} item={selectedItem} type={mode} />
+      <Modal 
+        isOpen={showModal} 
+        closeModal={closeModal} 
+        item={selectedItem} 
+        type={mode} 
+      />
 
       <PreferencesModal
         isOpen={showPreferencesModal}
