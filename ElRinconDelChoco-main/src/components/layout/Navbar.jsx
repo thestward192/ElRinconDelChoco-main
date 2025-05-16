@@ -1,7 +1,7 @@
 import FilterDropdown from '../microcomponents/FilterDropdown';
 import PreferencesButton from '../microcomponents/PreferencesButton';
 
-const Navbar = ({ mode, setMode, openPreferences }) => {
+const Navbar = ({ mode, setMode, openPreferences, openHistory }) => {
   return (
     <nav className="flex items-center justify-between bg-[#020202] p-4 text-white relative">
       {/* Izquierda: Logo + nombre */}
@@ -14,9 +14,15 @@ const Navbar = ({ mode, setMode, openPreferences }) => {
         <span className="text-2xl font-bold">El Rincón del Choco</span>
       </div>
 
-      {/* Centro: Secciones */}
-      <div className="absolute left-1/2 transform -translate-x-1/2">
+      {/* Centro: Filtro + Historial */}
+      <div className="absolute left-1/2 transform -translate-x-1/2 flex items-center space-x-4">
         <FilterDropdown mode={mode} setMode={setMode} />
+        <button
+          onClick={openHistory}
+          className="bg-gray-800 hover:bg-gray-700 text-white px-4 py-2 rounded transition duration-200"
+        >
+          Historial
+        </button>
       </div>
 
       {/* Derecha: Botón de preferencias */}
